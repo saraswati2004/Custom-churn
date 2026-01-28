@@ -1,8 +1,9 @@
-fastapi
-uvicorn
-pydantic
-python-jose
-numpy
-pandas
-joblib
+fastapi==0.110.0
+uvicorn==0.29.0
+pydantic==2.6.4
+python-jose==3.3.0
+
+numpy==1.26.4
+pandas==2.2.2
+joblib==1.3.2
 scikit-learn==1.3.2
