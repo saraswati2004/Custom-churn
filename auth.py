@@ -13,6 +13,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 from fastapi.security import HTTPBearer
 from pydantic import BaseModel
 security = HTTPBearer()
+
 # user authenticatiom 
 class UserRegister(BaseModel):
     username: str
@@ -26,23 +27,24 @@ class TokenResponse(BaseModel):
     token_type : str  #bearer
     expires_in: int
 
-fake_user_db ={
-    'admin': {
-        'username':'harsha',
-        'paasword': "12345",
-        'disable': False
+fake_user_db = {
+    'harsha': {
+        'username': 'harsha',
+        'password': '12345',
+        'disabled': False
     },
-    'user1':{
+    'user1': {
         'username': 'user1',
-        'password':'user01',
-        "disabled": False
+        'password': 'user01',
+        'disabled': False
     },
-    'user2':{
-        'name': 'user2',
-        'password': "user02",
-        'disabled': False 
-    } 
+    'user2': {
+        'username': 'user2',
+        'password': 'user02',
+        'disabled': False
+    }
 }
+
 from datetime import timedelta,datetime
 from typing import Optional
 # import jwt
