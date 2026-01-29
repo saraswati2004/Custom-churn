@@ -1,6 +1,7 @@
 # JWT authentication 
 # BEARER token le kr jata h 
-from data import app, CustomerData,predictionResponse,predict
+from data import CustomerData, predictionResponse,predict,app
+
 
 
 # configuratins
