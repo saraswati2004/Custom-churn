@@ -10,24 +10,30 @@ app = FastAPI(
 def greet():
     return {'massage':'whats up'}
 
-MODEL_PATH = 'best_balanced_churn_model.pkl'
-if not os.path.exists(MODEL_PATH):
-    raise FileNotFoundError(f"file not found")
-model = joblib.load(MODEL_PATH)
+
+MODEL_PATH = "best_balanced_churn_model.pkl"
+_model = None
+def load_model():
+    global _model
+    if _model is None:
+        if not os.path.exists(MODEL_PATH):
+            raise RuntimeError(f"Model file not found at {MODEL_PATH}")
+        _model = joblib.load(MODEL_PATH)
+    return _model
 
 from pydantic import BaseModel,Field,field_validator
 
 class CustomerData(BaseModel):
-    Gender: str = Field(...,example= 'female')
+    Gender: str = Field(...,example= 'Female')
     Age: int = Field(...,ge= 18,le = 100,example=45)
     Tenure : int = Field(...,ge=0,le=100,example=13)
     Services_Subscribed : int = Field(...,ge= 0,le=10,example=3)
-    Contract_Type: str = Field(...,example = 'Months-to-month')
+    Contract_Type: str = Field(...,example = 'Month-to-month')
     MonthlyCharges: float = Field(...,gt = 0,example=70.5)
     TotalCharges: float = Field(...,ge = 0,example = 500.75)
     TechSupport : str = Field(...,example = 'yes')
     OnlineSecurity :str = Field(...,example = 'yes')
-    InternetService: str = Field(..., example='fibar optic')
+    InternetService: str = Field(..., example='fiber optic')
     @field_validator('Gender')
     @classmethod
     def validate_gender(cls,value):
@@ -65,6 +71,7 @@ import pandas as pd
 @app.post('/Predict',response_model=predictionResponse)
 def predict(customer: CustomerData):
     try:
+        model = load_model()
         input_df = pd.DataFrame([customer.model_dump()])
 
 
@@ -72,7 +79,7 @@ def predict(customer: CustomerData):
 
     # probability
         probability = None
-        if hasattr(model,'predct_prob'):
+        if hasattr(model,'predict_prob'):
             probability = model.predict_proba(input_df)[0][1]
         return predictionResponse(
             Churn_prediction=prediction,
