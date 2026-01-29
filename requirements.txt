@@ -16,4 +16,5 @@ scipy==1.11.4
 joblib==1.4.2
 typing-extensions==4.9.0
 pandas==1.5.3
+streamlit==1.31.1
 
