@@ -1,4 +1,6 @@
 from fastapi import FastAPI,HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+
 import os
 import joblib
 
@@ -6,6 +8,17 @@ app = FastAPI(
     title = ' Customer churn API',
     description = 'an API to predict customer churn'
               )
+
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],   # production me restrict karna
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
 @app.get("/")
 def greet():
     return {'massage':'whats up'}
